@@ -1,0 +1,91 @@
+import sys
+from PyQt5 import QtWidgets
+from random import randint
+from PyQt5.QtGui import *
+from PyQt5.QtCore import *
+
+class Pencere(QtWidgets.QWidget):
+
+    def __init__(self):
+        super().__init__()
+        self.init_ui()
+
+    def init_ui(self):
+        image=QImage("foto.jpg")
+        simage=image.scaled(QSize(600,600))
+        palette=QPalette()
+        palette.setBrush(QPalette.Window,QBrush(simage))
+        self.setPalette(palette)
+        self.setGeometry(400,100,600,600)
+        self.setWindowTitle("Tas,Kagit,Makas Oyunu")
+        self.tas=QtWidgets.QPushButton("tas")
+        self.kagit=QtWidgets.QPushButton("kagit")
+        self.makas=QtWidgets.QPushButton("makas")
+        self.skor1=0
+        self.skor2=0
+        self.yazialani=QtWidgets.QLabel()
+        self.yazialani.setText(("Taş,Kağıt,Makas Oyunumuza Hoş Geldiniz!!!"))
+        self.yazialani.setFont(QFont("Arial",20))
+        self.yazialani1=QtWidgets.QLabel("Oyun Kuralları:")
+        self.yazialani2=QtWidgets.QLabel("1)Taş kağıta kesilir,makası kırar.\n2)Makas taşa kırılır,kağıtı keser.\n3)Kağıt taşı kaplar,makasa kesilir.")
+        self.yazialani2.setFont(QFont("Arial",15))
+        self.yazialani1.setFont(QFont("Arial",15))
+        self.skor=QtWidgets.QLabel("Kullanıcı:{}-{}:Bilgisayar".format(self.skor1,self.skor2))
+        self.skor.setFont(QFont("Arial",20))
+        h_box=QtWidgets.QHBoxLayout()
+        h_box.addWidget(self.tas)
+        h_box.addWidget(self.kagit)
+        h_box.addWidget(self.makas)
+        v_box=QtWidgets.QVBoxLayout()
+        v_box.addWidget(self.yazialani)
+        v_box.addWidget(self.yazialani1)
+        v_box.addWidget(self.yazialani2)
+        v_box.addStretch()
+        v_box.addLayout(h_box)
+        v_box.addWidget(self.skor)
+        v_box.addStretch()
+        h1_box=QtWidgets.QHBoxLayout()
+        h1_box.addStretch()
+        h1_box.addLayout(v_box)
+        h1_box.addStretch()
+        self.setLayout(h1_box)
+        self.tas.clicked.connect(self.click)
+        self.kagit.clicked.connect(self.click)
+        self.makas.clicked.connect(self.click)
+        self.show()
+
+    def click(self):
+        sender=self.sender()
+        gelen=sender.text()
+        liste=["tas","kagit","makas"]
+        sayi=randint(0,2)
+        deger=liste[sayi]
+        print(f"Sistemin atadigi deger={deger}")
+        if(deger==gelen):
+            self.skor.setText("Kullanıcı:{}-{}:Bilgisayar".format(self.skor1,self.skor2))
+        elif(deger=="tas"):
+            if(gelen=="kagit"):
+                self.skor1+=1
+                self.skor.setText("Kullanıcı:{}-{}:Bilgisayar".format(self.skor1,self.skor2))
+            else:
+                self.skor2+=1
+                self.skor.setText("Kullanıcı:{}-{}:Bilgisayar".format(self.skor1,self.skor2))
+        elif(deger=="kagit"):
+            if(gelen=="makas"):
+                self.skor1+=1
+                self.skor.setText("Kullanıcı:{}-{}:Bilgisayar".format(self.skor1,self.skor2))
+            else:
+                self.skor2+=1
+                self.skor.setText("Kullanıcı:{}-{}:Bilgisayar".format(self.skor1,self.skor2))
+        elif(deger=="makas"):
+            if(gelen=="tas"):
+                self.skor1+=1
+                self.skor.setText("Kullanıcı:{}-{}:Bilgisayar".format(self.skor1,self.skor2))
+            else:
+                self.skor2+=1
+                self.skor.setText("Kullanıcı:{}-{}:Bilgisayar".format(self.skor1,self.skor2))
+app=QtWidgets.QApplication(sys.argv)
+
+pencere=Pencere()
+
+sys.exit(app.exec())
