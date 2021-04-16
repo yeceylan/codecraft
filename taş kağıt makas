@@ -1,3 +1,4 @@
+ # taş-kağıt-makas kodu çalıştırılırken foto.jpg dosyası ile birlikte çalıştırınız aks takdirde çalışmaz.
 import sys
 from PyQt5 import QtWidgets
 from random import randint
